@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "event_id": 1,
+    "customer_username": "customer1",
+    "quantity": 2,
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "event_id": 2,
+    "customer_username": "customer1",
+    "quantity": 1,
+    "status": "cancelled"
+  }
+]

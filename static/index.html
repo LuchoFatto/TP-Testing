@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Testing Project</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --border: #d9e0ea;
+      --text: #1f2937;
+      --muted: #667085;
+      --primary: #1d4ed8;
+      --danger: #b42318;
+      --success: #067647;
+      --section-gap: 24px;
+      --card-radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 24px 40px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      color: white;
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+    }
+
+    .hero p {
+      margin: 0;
+      opacity: 0.95;
+      font-size: 15px;
+    }
+
+    .status {
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .status.info {
+      display: block;
+      background: #eff8ff;
+      color: #175cd3;
+      border: 1px solid #b2ddff;
+    }
+
+    .status.error {
+      display: block;
+      background: #fef3f2;
+      color: #b42318;
+      border: 1px solid #fecdca;
+    }
+
+    .status.success {
+      display: block;
+      background: #ecfdf3;
+      color: var(--success);
+      border: 1px solid #abefc6;
+    }
+
+    .page-section {
+      margin-bottom: var(--section-gap);
+    }
+
+    .section-heading {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .section-subtitle {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 18px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+    }
+
+    .card h2,
+    .card h3 {
+      margin: 0 0 12px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .card-header h2 {
+      margin: 0;
+    }
+
+    .card-header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 12px 0 6px;
+    }
+
+    input,
+    button {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    input {
+      background: white;
+    }
+
+    button {
+      cursor: pointer;
+      background: var(--primary);
+      color: white;
+      border: none;
+      font-weight: 600;
+      margin-top: 12px;
+      transition: transform 0.02s ease, opacity 0.2s ease;
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button.secondary {
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    .inline-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .inline-actions button,
+    .inline-actions input {
+      width: auto;
+      flex: 1;
+      min-width: 100px;
+      margin-top: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .session-box {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .session-main {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #eef2ff;
+      color: #3730a3;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .toolbar label {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .toolbar input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+
+    .event-list,
+    .order-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .event-card,
+    .order-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    .event-card h3,
+    .order-card h3 {
+      margin: 0 0 10px;
+    }
+
+    .event-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 12px 0 14px;
+      font-size: 14px;
+    }
+
+    .section-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 20px 16px 28px;
+      }
+
+      .hero {
+        padding: 22px 18px;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Event Tracker!</h1>
+      <p>Tu plataforma de eventos segura y confiable.</p>
+    </section>
+
+    <div id="status" class="status"></div>
+
+    <section class="page-section">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2>Sesión actual</h2>
+            <p>Información del usuario autenticado y acceso a acciones disponibles.</p>
+          </div>
+        </div>
+
+        <div id="sessionBox" class="session-box">
+          <div class="session-main">
+            <div class="muted">Estado actual</div>
+            <div id="sessionInfo">No hay usuario autenticado.</div>
+          </div>
+          <button id="logoutButton" class="secondary hidden">Cerrar sesión</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <h2 class="section-heading">Acceso</h2>
+      <p class="section-subtitle">Iniciá sesión o registrá un nuevo usuario cliente.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h2>Iniciar sesión</h2>
+
+          <label for="loginUsername">Usuario</label>
+          <input id="loginUsername" placeholder="Ej: customer1">
+
+          <label for="loginPassword">Contraseña</label>
+          <input id="loginPassword" type="password" placeholder="Ej: cust123">
+
+          <button id="loginButton">Ingresar</button>
+        </div>
+
+        <div class="card">
+          <h2>Registro</h2>
+
+          <label for="registerUsername">Nuevo usuario</label>
+          <input id="registerUsername" placeholder="Ej: alumno1">
+
+          <label for="registerPassword">Contraseña</label>
+          <input id="registerPassword" type="password" placeholder="Mínimo 3 caracteres">
+
+          <button id="registerButton" class="secondary">Registrar cliente</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="section-box">
+        <div class="card-header">
+          <div>
+            <h2>Eventos disponibles</h2>
+            <p>Consultá los eventos activos y comprá entradas si tenés una sesión iniciada.</p>
+          </div>
+
+          <div class="toolbar">
+            <label>
+              <input id="activeOnly" type="checkbox" checked>
+              Solo activos
+            </label>
+            <button id="refreshEventsButton" class="secondary">Actualizar eventos</button>
+          </div>
+        </div>
+
+        <div id="eventsContainer" class="event-list"></div>
+      </div>
+    </section>
+
+    <section id="createEventSection" class="page-section hidden">
+      <div class="section-box">
+        <div class="card-header">
+          <div>
+            <h2>Crear evento</h2>
+            <p>Disponible para perfiles con permisos de administración u organización.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <label for="eventName">Nombre</label>
+            <input id="eventName" placeholder="Ej: Hackathon UADE">
+          </div>
+
+          <div>
+            <label for="eventDate">Fecha</label>
+            <input id="eventDate" placeholder="2026-06-26">
+          </div>
+
+          <div>
+            <label for="eventCapacity">Capacidad</label>
+            <input id="eventCapacity" type="number" min="1" placeholder="100">
+          </div>
+
+          <div>
+            <label for="eventPrice">Precio</label>
+            <input id="eventPrice" type="number" min="1" placeholder="5000">
+          </div>
+        </div>
+
+        <button id="createEventButton">Crear evento</button>
+      </div>
+    </section>
+
+    <section id="ordersSection" class="page-section hidden">
+      <div class="section-box">
+        <div class="card-header">
+          <div>
+            <h2>Mis órdenes</h2>
+            <p>Visualizá tus compras y cancelá órdenes activas.</p>
+          </div>
+
+          <button id="refreshOrdersButton" class="secondary">Actualizar órdenes</button>
+        </div>
+
+        <div id="ordersContainer" class="order-list"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const statusBox = document.getElementById('status');
+    const sessionInfo = document.getElementById('sessionInfo');
+    const logoutButton = document.getElementById('logoutButton');
+    const createEventSection = document.getElementById('createEventSection');
+    const ordersSection = document.getElementById('ordersSection');
+    const eventsContainer = document.getElementById('eventsContainer');
+    const ordersContainer = document.getElementById('ordersContainer');
+
+    let authState = {
+      token: localStorage.getItem('token') || '',
+      user: JSON.parse(localStorage.getItem('user') || 'null')
+    };
+
+    function setStatus(message, kind = 'info') {
+      statusBox.textContent = message;
+      statusBox.className = `status ${kind}`;
+    }
+
+    function clearStatus() {
+      statusBox.className = 'status';
+      statusBox.textContent = '';
+    }
+
+    function authHeaders() {
+      return authState.token ? { Authorization: `Bearer ${authState.token}` } : {};
+    }
+
+    function updateSessionUI() {
+      if (authState.user) {
+        sessionInfo.innerHTML = `<strong>${authState.user.username}</strong> <span class="pill">${authState.user.role}</span>`;
+        logoutButton.classList.remove('hidden');
+        ordersSection.classList.remove('hidden');
+        const canManageEvents = ['admin', 'organizer'].includes(authState.user.role);
+        createEventSection.classList.toggle('hidden', !canManageEvents);
+      } else {
+        sessionInfo.textContent = 'No hay usuario autenticado.';
+        logoutButton.classList.add('hidden');
+        createEventSection.classList.add('hidden');
+        ordersSection.classList.add('hidden');
+        ordersContainer.innerHTML = '';
+      }
+    }
+
+    async function request(path, options = {}) {
+      const response = await fetch(path, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...authHeaders(),
+          ...(options.headers || {})
+        },
+        ...options
+      });
+
+      const contentType = response.headers.get('content-type') || '';
+      const data = contentType.includes('application/json') ? await response.json() : await response.text();
+
+      if (!response.ok) {
+        const message = data.detail || data.message || 'Ocurrió un error.';
+        throw new Error(message);
+      }
+
+      return data;
+    }
+
+    function saveSession(token, user) {
+      authState = { token, user };
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      updateSessionUI();
+    }
+
+    function clearSession() {
+      authState = { token: '', user: null };
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      updateSessionUI();
+    }
+
+    async function handleLogin() {
+      clearStatus();
+      try {
+        const payload = {
+          username: document.getElementById('loginUsername').value.trim(),
+          password: document.getElementById('loginPassword').value.trim()
+        };
+        const data = await request('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        saveSession(data.token, data.user);
+        setStatus(`Sesión iniciada como ${data.user.username}.`, 'success');
+        await loadEvents();
+        await loadOrders();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
+    async function handleRegister() {
+      clearStatus();
+      try {
+        const payload = {
+          username: document.getElementById('registerUsername').value.trim(),
+          password: document.getElementById('registerPassword').value.trim()
+        };
+        await request('/auth/register', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        setStatus('Usuario registrado correctamente. Ahora podés iniciar sesión.', 'success');
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
+    async function loadEvents() {
+      eventsContainer.innerHTML = '<div class="muted">Cargando eventos...</div>';
+      try {
+        const activeOnly = document.getElementById('activeOnly').checked;
+        const events = await request(`/events?active_only=${activeOnly}`);
+        if (!events.length) {
+          eventsContainer.innerHTML = '<div class="muted">No hay eventos para mostrar.</div>';
+          return;
+        }
+
+        eventsContainer.innerHTML = events.map(event => {
+          const canBuy = authState.user && event.active && !event.deleted;
+          return `
+            <div class="event-card">
+              <h3>${event.name}</h3>
+              <div class="event-meta">
+                <div><strong>ID:</strong> ${event.id}</div>
+                <div><strong>Fecha:</strong> ${event.date}</div>
+                <div><strong>Capacidad:</strong> ${event.capacity}</div>
+                <div><strong>Precio:</strong> $${event.price}</div>
+                <div><strong>Owner:</strong> ${event.owner_username}</div>
+                <div><strong>Activo:</strong> ${event.active ? 'Sí' : 'No'}</div>
+              </div>
+              ${canBuy ? `
+                <div class="inline-actions">
+                  <input type="number" min="1" value="1" id="qty-${event.id}">
+                  <button onclick="buyTickets(${event.id})">Comprar</button>
+                </div>
+              ` : '<div class="muted">Iniciá sesión para comprar o administrá el evento desde la API.</div>'}
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        eventsContainer.innerHTML = `<div class="muted">No se pudieron cargar los eventos: ${error.message}</div>`;
+      }
+    }
+
+    async function buyTickets(eventId) {
+      clearStatus();
+      try {
+        const quantity = Number(document.getElementById(`qty-${eventId}`).value);
+        await request('/orders', {
+          method: 'POST',
+          body: JSON.stringify({ event_id: eventId, quantity })
+        });
+        setStatus('Compra registrada correctamente.', 'success');
+        await loadOrders();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
+    async function loadOrders() {
+      if (!authState.user) {
+        return;
+      }
+
+      ordersContainer.innerHTML = '<div class="muted">Cargando órdenes...</div>';
+      try {
+        const orders = await request('/orders');
+        if (!orders.length) {
+          ordersContainer.innerHTML = '<div class="muted">No hay órdenes para mostrar.</div>';
+          return;
+        }
+
+        ordersContainer.innerHTML = orders.map(order => `
+          <div class="order-card">
+            <h3>Orden #${order.id}</h3>
+            <div class="event-meta">
+              <div><strong>Evento:</strong> ${order.event_id}</div>
+              <div><strong>Cliente:</strong> ${order.customer_username}</div>
+              <div><strong>Cantidad:</strong> ${order.quantity}</div>
+              <div><strong>Estado:</strong> ${order.status}</div>
+            </div>
+            ${order.status === 'active'
+              ? `<button class="danger" onclick="cancelOrder(${order.id})">Cancelar orden</button>`
+              : '<div class="muted">Orden ya cancelada.</div>'}
+          </div>
+        `).join('');
+      } catch (error) {
+        ordersContainer.innerHTML = `<div class="muted">No se pudieron cargar las órdenes: ${error.message}</div>`;
+      }
+    }
+
+    async function cancelOrder(orderId) {
+      clearStatus();
+      try {
+        await request(`/orders/${orderId}/cancel`, { method: 'PATCH' });
+        setStatus(`Orden ${orderId} cancelada correctamente.`, 'success');
+        await loadOrders();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
+    async function createEvent() {
+      clearStatus();
+      try {
+        const payload = {
+          name: document.getElementById('eventName').value.trim(),
+          date: document.getElementById('eventDate').value.trim(),
+          capacity: Number(document.getElementById('eventCapacity').value),
+          price: Number(document.getElementById('eventPrice').value)
+        };
+        await request('/events', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        setStatus('Evento creado correctamente.', 'success');
+        await loadEvents();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
+    document.getElementById('loginButton').addEventListener('click', handleLogin);
+    document.getElementById('registerButton').addEventListener('click', handleRegister);
+    document.getElementById('logoutButton').addEventListener('click', () => {
+      clearSession();
+      setStatus('Sesión cerrada.', 'info');
+      loadEvents();
+    });
+    document.getElementById('refreshEventsButton').addEventListener('click', loadEvents);
+    document.getElementById('refreshOrdersButton').addEventListener('click', loadOrders);
+    document.getElementById('createEventButton').addEventListener('click', createEvent);
+    document.getElementById('activeOnly').addEventListener('change', loadEvents);
+
+    updateSessionUI();
+    loadEvents();
+    if (authState.user) {
+      loadOrders();
+    }
+
+    window.buyTickets = buyTickets;
+    window.cancelOrder = cancelOrder;
+  </script>
+</body>
+</html>

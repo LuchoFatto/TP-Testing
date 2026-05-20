@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Rock Fest",
+    "date": "2025-11-10",
+    "capacity": 100,
+    "price": 5000,
+    "active": true,
+    "deleted": false,
+    "owner_username": "organizer1"
+  },
+  {
+    "id": 2,
+    "name": "Tech Conference",
+    "date": "2025-12-01",
+    "capacity": 80,
+    "price": 7000,
+    "active": true,
+    "deleted": false,
+    "owner_username": "organizer2"
+  },
+  {
+    "id": 3,
+    "name": "Jazz Night",
+    "date": "2025-12-20",
+    "capacity": 50,
+    "price": 4500,
+    "active": false,
+    "deleted": false,
+    "owner_username": "organizer1"
+  }
+]
