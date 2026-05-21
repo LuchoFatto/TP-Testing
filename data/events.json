@@ -28,5 +28,25 @@
     "active": false,
     "deleted": false,
     "owner_username": "organizer1"
+  },
+  {
+    "id": 4,
+    "name": "",
+    "date": "",
+    "capacity": 2003,
+    "price": 1.0,
+    "active": true,
+    "deleted": false,
+    "owner_username": "organizer1"
+  },
+  {
+    "id": 5,
+    "name": "",
+    "date": "",
+    "capacity": 10000000000000000000,
+    "price": 1.0,
+    "active": true,
+    "deleted": false,
+    "owner_username": "organizer1"
   }
 ]
