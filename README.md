@@ -75,3 +75,4 @@ pytest
 A continuación se detallan los entregables correspondientes a los distintos Sprints de la materia:
 
 - [Sprint 1 - Requerimientos Refinados](REQUIREMENTS.md)
+- [Sprint 1 - Plan de Pruebas Inicial](QA.md)
