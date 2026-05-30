@@ -57,6 +57,7 @@ Este documento detalla las especificaciones funcionales, historias de usuario co
 > **Quiero** eliminar un evento del sistema,
 > **Para** darlo de baja de la oferta pública cuando sea necesario.
 
+
 #### Criterios de Aceptación (Escenarios de Testing)
 
 - **Escenario 1: Camino Feliz (Happy Path) - Admin elimina cualquier evento**
@@ -102,7 +103,18 @@ Este documento detalla las especificaciones funcionales, historias de usuario co
     { "detail": "Evento no encontrado." }
     ```
 
+
 ---
+
+## Backlog de endpoints pre-existentes:
+
+<!-- Esto se debe a una correccion de la primer entrega -->
+
+### 3. Registrar un cliente nuevo `[POST /auth/register]`
+
+### 4. Inicia sesión y devuelve token `[POST /auth/login]`
+
+### 5. Crear un evento `[POST /events]`
 
 ## Riesgo Técnico Identificado
 
