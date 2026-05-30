@@ -84,3 +84,26 @@ class EventService:
         event_repository.write_all(updated_events)
         logger.info("Event deactivated successfully: event_id=%s", event_id)
         return event
+
+    @staticmethod
+    def update_capacity(event_id: int, new_capacity: int, current_user: Dict) -> Dict:
+        
+        event = EventService.get_event(event_id)
+        
+        if event is None or event.get("deleted", False):
+            raise ValueError("Event not found")
+
+        if current_user["role"] != "admin" and event["owner_username"] != current_user["username"]:
+            raise PermissionError("You do not have permission to update this event")
+
+        sold_tickets = OrderService.sold_tickets_for_event(event_id)
+        
+        if new_capacity < sold_tickets:
+            raise ValueError("Capacity cannot be lower than sold tickets")
+
+        event["capacity"] = new_capacity
+        events = event_repository.read_all()
+        updated_events = [event if existing["id"] == event_id else existing for existing in events]
+        event_repository.write_all(updated_events)
+        logger.info("Event capacity updated successfully: event_id=%s new_capacity=%s", event_id, new_capacity)
+        return event

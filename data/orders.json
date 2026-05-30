@@ -4,7 +4,7 @@
     "event_id": 1,
     "customer_username": "customer1",
     "quantity": 2,
-    "status": "active"
+    "status": "cancelled"
   },
   {
     "id": 2,
@@ -12,5 +12,103 @@
     "customer_username": "customer1",
     "quantity": 1,
     "status": "cancelled"
+  },
+  {
+    "id": 3,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 5,
+    "status": "cancelled"
+  },
+  {
+    "id": 4,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 5,
+    "status": "cancelled"
+  },
+  {
+    "id": 5,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 5,
+    "status": "cancelled"
+  },
+  {
+    "id": 6,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 5,
+    "status": "cancelled"
+  },
+  {
+    "id": 7,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 5,
+    "status": "cancelled"
+  },
+  {
+    "id": 8,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 5,
+    "status": "cancelled"
+  },
+  {
+    "id": 9,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 5,
+    "status": "cancelled"
+  },
+  {
+    "id": 10,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 5,
+    "status": "cancelled"
+  },
+  {
+    "id": 11,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 1,
+    "status": "cancelled"
+  },
+  {
+    "id": 12,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 1,
+    "status": "cancelled"
+  },
+  {
+    "id": 13,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 1,
+    "status": "cancelled"
+  },
+  {
+    "id": 14,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 1,
+    "status": "cancelled"
+  },
+  {
+    "id": 15,
+    "event_id": 1,
+    "customer_username": "admin1",
+    "quantity": 1,
+    "status": "cancelled"
+  },
+  {
+    "id": 16,
+    "event_id": 2,
+    "customer_username": "organizer1",
+    "quantity": 1,
+    "status": "active"
   }
 ]

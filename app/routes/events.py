@@ -56,3 +56,12 @@ def deactivate_event(event_id: int, current_user=Depends(get_current_user)):
         raise HTTPException(status_code=404, detail=str(exc))
     except PermissionError as exc:
         raise HTTPException(status_code=403, detail=str(exc))
+
+@router.patch("/{event_id}/capacity")
+def update_capacity(event_id: int, payload: CapacityUpdateRequest, current_user=Depends(get_current_user)):
+    try:
+        return EventService.update_capacity(event_id, payload.capacity, current_user)
+    except ValueError as exc:
+        raise HTTPException(status_code=404 if str(exc) == "Event not found" else 400, detail=str(exc))
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc))
