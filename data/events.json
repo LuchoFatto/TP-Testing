@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Rock Fest",
     "date": "2025-11-10",
-    "capacity": 100,
+    "capacity": 150,
     "price": 5000,
     "active": true,
     "deleted": false,

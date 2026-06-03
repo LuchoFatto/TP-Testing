@@ -109,6 +109,6 @@
     "event_id": 2,
     "customer_username": "organizer1",
     "quantity": 1,
-    "status": "active"
+    "status": "cancelled"
   }
 ]

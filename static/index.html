@@ -202,6 +202,20 @@
       margin-top: 0;
     }
 
+    .event-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+
+    .event-actions .edit-button {
+      width: auto;
+      flex: none;
+      min-width: 0;
+      margin-top: 0;
+      padding: 9px 20px;
+    }
+
     .muted {
       color: var(--muted);
     }
@@ -289,7 +303,65 @@
     }
 
     .hidden {
-      display: none;
+      display: none !important;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 50;
+    }
+
+    .modal {
+      background: var(--card);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .modal-close {
+      width: auto;
+      margin: 0;
+      padding: 4px 10px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: var(--text);
+      opacity: 1;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .modal-actions button {
+      margin-top: 0;
     }
 
     @media (max-width: 640px) {
@@ -438,6 +510,24 @@
     </section>
   </div>
 
+  <div id="editEventModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Editar evento</h2>
+        <button id="closeEditModalButton" class="modal-close" aria-label="Cerrar">&times;</button>
+      </div>
+      <p class="muted" id="editEventName"></p>
+
+      <label for="editCapacity">Capacidad</label>
+      <input id="editCapacity" type="number" min="1" placeholder="100">
+
+      <div class="modal-actions">
+        <button id="cancelEditButton" class="secondary">Cancelar</button>
+        <button id="saveEditButton">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const statusBox = document.getElementById('status');
     const sessionInfo = document.getElementById('sessionInfo');
@@ -451,6 +541,9 @@
       token: localStorage.getItem('token') || '',
       user: JSON.parse(localStorage.getItem('user') || 'null')
     };
+
+    let loadedEvents = [];
+    let editingEventId = null;
 
     function setStatus(message, kind = 'info') {
       statusBox.textContent = message;
@@ -559,6 +652,7 @@
       try {
         const activeOnly = document.getElementById('activeOnly').checked;
         const events = await request(`/events?active_only=${activeOnly}`);
+        loadedEvents = events;
         if (!events.length) {
           eventsContainer.innerHTML = '<div class="muted">No hay eventos para mostrar.</div>';
           return;
@@ -566,6 +660,7 @@
 
         eventsContainer.innerHTML = events.map(event => {
           const canBuy = authState.user && event.active && !event.deleted;
+          const canEdit = authState.user && (authState.user.role === 'admin' || event.owner_username === authState.user.username);
           return `
             <div class="event-card">
               <h3>${event.name}</h3>
@@ -583,6 +678,11 @@
                   <button onclick="buyTickets(${event.id})">Comprar</button>
                 </div>
               ` : '<div class="muted">Iniciá sesión para comprar o administrá el evento desde la API.</div>'}
+              ${canEdit ? `
+                <div class="event-actions">
+                  <button class="secondary edit-button" onclick="openEditModal(${event.id})">Editar</button>
+                </div>
+              ` : ''}
             </div>
           `;
         }).join('');
@@ -669,6 +769,43 @@
       }
     }
 
+    const editEventModal = document.getElementById('editEventModal');
+
+    function openEditModal(eventId) {
+      const event = loadedEvents.find(e => e.id === eventId);
+      if (!event) {
+        return;
+      }
+      editingEventId = eventId;
+      document.getElementById('editEventName').textContent = `${event.name} (ID ${event.id})`;
+      document.getElementById('editCapacity').value = event.capacity;
+      editEventModal.classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      editingEventId = null;
+      editEventModal.classList.add('hidden');
+    }
+
+    async function saveEventEdits() {
+      if (editingEventId === null) {
+        return;
+      }
+      clearStatus();
+      try {
+        const capacity = Number(document.getElementById('editCapacity').value);
+        await request(`/events/${editingEventId}/capacity`, {
+          method: 'PATCH',
+          body: JSON.stringify({ capacity })
+        });
+        setStatus('Evento actualizado correctamente.', 'success');
+        closeEditModal();
+        await loadEvents();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
     document.getElementById('loginButton').addEventListener('click', handleLogin);
     document.getElementById('registerButton').addEventListener('click', handleRegister);
     document.getElementById('logoutButton').addEventListener('click', () => {
@@ -680,6 +817,14 @@
     document.getElementById('refreshOrdersButton').addEventListener('click', loadOrders);
     document.getElementById('createEventButton').addEventListener('click', createEvent);
     document.getElementById('activeOnly').addEventListener('change', loadEvents);
+    document.getElementById('saveEditButton').addEventListener('click', saveEventEdits);
+    document.getElementById('cancelEditButton').addEventListener('click', closeEditModal);
+    document.getElementById('closeEditModalButton').addEventListener('click', closeEditModal);
+    editEventModal.addEventListener('click', (event) => {
+      if (event.target === editEventModal) {
+        closeEditModal();
+      }
+    });
 
     updateSessionUI();
     loadEvents();
@@ -689,6 +834,7 @@
 
     window.buyTickets = buyTickets;
     window.cancelOrder = cancelOrder;
+    window.openEditModal = openEditModal;
   </script>
 </body>
 </html>
