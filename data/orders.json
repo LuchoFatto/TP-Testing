@@ -110,5 +110,12 @@
     "customer_username": "organizer1",
     "quantity": 1,
     "status": "cancelled"
+  },
+  {
+    "id": 17,
+    "event_id": 2,
+    "customer_username": "Rock@gmail.com",
+    "quantity": 1,
+    "status": "active"
   }
 ]

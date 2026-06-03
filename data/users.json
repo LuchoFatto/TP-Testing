@@ -28,5 +28,10 @@
     "username": "elianbarci@hotmail.com",
     "password": "aaaasdsadsad",
     "role": "customer"
+  },
+  {
+    "username": "Rock@gmail.com",
+    "password": "hola123",
+    "role": "customer"
   }
 ]

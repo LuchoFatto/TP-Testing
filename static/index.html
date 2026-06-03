@@ -388,7 +388,7 @@
 
     <div id="status" class="status"></div>
 
-    <section class="page-section">
+    <section id="sessionSection" class="page-section">
       <div class="card">
         <div class="card-header">
           <div>
@@ -407,7 +407,7 @@
       </div>
     </section>
 
-    <section class="page-section">
+    <section id="accessSection" class="page-section">
       <h2 class="section-heading">Acceso</h2>
       <p class="section-subtitle">Iniciá sesión o registrá un nuevo usuario cliente.</p>
 
@@ -534,6 +534,8 @@
     const logoutButton = document.getElementById('logoutButton');
     const createEventSection = document.getElementById('createEventSection');
     const ordersSection = document.getElementById('ordersSection');
+    const accessSection = document.getElementById('accessSection');
+    const sessionSection = document.getElementById('sessionSection');
     const eventsContainer = document.getElementById('eventsContainer');
     const ordersContainer = document.getElementById('ordersContainer');
 
@@ -564,6 +566,8 @@
         sessionInfo.innerHTML = `<strong>${authState.user.username}</strong> <span class="pill">${authState.user.role}</span>`;
         logoutButton.classList.remove('hidden');
         ordersSection.classList.remove('hidden');
+        accessSection.classList.add('hidden');
+        sessionSection.classList.remove('hidden');
         const canManageEvents = ['admin', 'organizer'].includes(authState.user.role);
         createEventSection.classList.toggle('hidden', !canManageEvents);
       } else {
@@ -571,6 +575,8 @@
         logoutButton.classList.add('hidden');
         createEventSection.classList.add('hidden');
         ordersSection.classList.add('hidden');
+        accessSection.classList.remove('hidden');
+        sessionSection.classList.add('hidden');
         ordersContainer.innerHTML = '';
       }
     }
