@@ -91,8 +91,14 @@ class EventService:
         if event is None or event.get("deleted", False):
             raise ValueError("Event not found")
 
-        if current_user["role"] != "admin" and event["owner_username"] != current_user["username"]:
+        is_admin = current_user["role"] == "admin"
+        is_owner = event["owner_username"] == current_user["username"]
+
+        if not is_admin and not is_owner:
             raise PermissionError("You do not have permission to delete this event")
+
+        if not is_admin and OrderService.event_has_any_orders(event_id):
+            raise ValueError("Cannot delete an event that has registered orders")
 
         event["deleted"] = True
         event["active"] = False
