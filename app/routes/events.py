@@ -48,6 +48,16 @@ def update_event(event_id: int, payload: EventUpdateRequest, current_user=Depend
         raise HTTPException(status_code=403, detail=str(exc))
 
 
+@router.delete("/{event_id}")
+def delete_event(event_id: int, current_user=Depends(get_current_user)):
+    try:
+        return EventService.delete_event(event_id, current_user)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc))
+
+
 @router.patch("/{event_id}/deactivate")
 def deactivate_event(event_id: int, current_user=Depends(get_current_user)):
     try:

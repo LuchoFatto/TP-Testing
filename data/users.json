@@ -1,37 +1,6 @@
 [
-  {
-    "username": "admin1",
-    "password": "admin123",
-    "role": "admin"
-  },
-  {
-    "username": "organizer1",
-    "password": "org123",
-    "role": "organizer"
-  },
-  {
-    "username": "organizer2",
-    "password": "org456",
-    "role": "organizer"
-  },
-  {
-    "username": "customer1",
-    "password": "cust123",
-    "role": "customer"
-  },
-  {
-    "username": "aasadasdsad",
-    "password": "aaaasdsadsad",
-    "role": "customer"
-  },
-  {
-    "username": "elianbarci@hotmail.com",
-    "password": "aaaasdsadsad",
-    "role": "customer"
-  },
-  {
-    "username": "Rock@gmail.com",
-    "password": "hola123",
-    "role": "customer"
-  }
+  {"username": "admin1", "password": "admin123", "role": "admin"},
+  {"username": "organizer1", "password": "org123", "role": "organizer"},
+  {"username": "organizer2", "password": "org456", "role": "organizer"},
+  {"username": "customer1", "password": "cust123", "role": "customer"}
 ]

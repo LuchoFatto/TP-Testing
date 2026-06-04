@@ -205,6 +205,7 @@
     .event-actions {
       display: flex;
       justify-content: flex-end;
+      gap: 8px;
       margin-top: 12px;
     }
 
@@ -687,6 +688,7 @@
               ${canEdit ? `
                 <div class="event-actions">
                   <button class="secondary edit-button" onclick="openEditModal(${event.id})">Editar</button>
+                  <button class="danger edit-button" onclick="deleteEvent(${event.id})">Eliminar</button>
                 </div>
               ` : ''}
             </div>
@@ -793,6 +795,22 @@
       editEventModal.classList.add('hidden');
     }
 
+    async function deleteEvent(eventId) {
+      const event = loadedEvents.find(e => e.id === eventId);
+      const label = event ? `"${event.name}" (ID ${eventId})` : `el evento ${eventId}`;
+      if (!confirm(`¿Seguro que querés eliminar ${label}? Esta acción no se puede deshacer.`)) {
+        return;
+      }
+      clearStatus();
+      try {
+        await request(`/events/${eventId}`, { method: 'DELETE' });
+        setStatus('Evento eliminado correctamente.', 'success');
+        await loadEvents();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      }
+    }
+
     async function saveEventEdits() {
       if (editingEventId === null) {
         return;
@@ -841,6 +859,7 @@
     window.buyTickets = buyTickets;
     window.cancelOrder = cancelOrder;
     window.openEditModal = openEditModal;
+    window.deleteEvent = deleteEvent;
   </script>
 </body>
 </html>
