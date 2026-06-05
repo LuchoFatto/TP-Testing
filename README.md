@@ -1,4 +1,4 @@
-# Testin de aplicaciones - Proyecto grupal (segundo parcial)
+# Testing de aplicaciones - Proyecto grupal (segundo parcial)
 
 Proyecto base para la materia Testing de Aplicaciones.
 
