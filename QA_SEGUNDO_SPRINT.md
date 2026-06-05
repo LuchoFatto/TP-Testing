@@ -78,7 +78,7 @@ De acuerdo con el requisito funcional, al intentar eliminar un evento con órden
 
 Sin embargo, el sistema elimina el evento y devuelve la siguiente respuesta: 
 
-{ "id": 3, "name": "Jazz Night", "date": "2025-12-20", "capacity": 50, "price": 4500, "active": false, "deleted": true, "owner_username": "organizer1" } 
+{"id": 3, "name": "Jazz Night", "date": "2025-12-20", "capacity": 50, "price": 4500, "active": false, "deleted": true, "owner_username": "organizer1"} 
 
 Esto evidencia que el evento fue marcado como eliminado, incumpliendo el comportamiento esperado definido en la especificación. 
 
