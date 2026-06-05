@@ -6,7 +6,7 @@ Este documento detalla las especificaciones funcionales, historias de usuario co
 
 ## Historias de Usuario y Criterios de Aceptación
 
-### 1. Modificación de Capacidad de un Evento `[PATCH /events/{event_id}/capacity]`
+### 1. Modificación de Capacidad de un Evento `[PATCH /events/{event_id}/capacity]` (REQ_01)
 
 > **Como** Organizador del evento o Administrador del sistema,
 > **Quiero** modificar la capacidad total de un evento,
@@ -51,7 +51,7 @@ Este documento detalla las especificaciones funcionales, historias de usuario co
 
 ---
 
-### 2. Eliminación Lógica de un Evento `[DELETE /events/{event_id}]`
+### 2. Eliminación Lógica de un Evento `[DELETE /events/{event_id}]` (REQ_02)
 
 > **Como** Usuario Administrador o Dueño del evento,
 > **Quiero** eliminar un evento del sistema,
