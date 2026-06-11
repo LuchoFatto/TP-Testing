@@ -103,18 +103,72 @@ Este documento detalla las especificaciones funcionales, historias de usuario co
     { "detail": "Evento no encontrado." }
     ```
 
-
 ---
 
-## Backlog de endpoints pre-existentes:
+### 3. Registro de un Cliente Nuevo `[POST /auth/register]` (REQ_03)
 
-<!-- Esto se debe a una correccion de la primer entrega -->
+> **Como** Visitante anónimo,
+> **Quiero** registrarme en el sistema ingresando un nombre de usuario, contraseña y rol,
+> **Para** crear una cuenta que me permita acceder a las funciones comerciales de la plataforma.
 
-### 3. Registrar un cliente nuevo `[POST /auth/register]`
 
-### 4. Inicia sesión y devuelve token `[POST /auth/login]`
+#### Criterios de Aceptación (Escenarios de Testing)
 
-### 5. Crear un evento `[POST /events]`
+- **Escenario 1: Camino Feliz (Happy Path) - Registro exitoso de un nuevo cliente**
+  - **Dado** que el `username` `"nuevo_cliente"` no existe dentro del archivo `users.json`.
+  - **Cuando** envío una petición `POST /auth/register` con los datos obligatorios del esquema y el rol `"customer"`.
+  - **Entonces** el sistema debe añadir el nuevo registro de usuario en el archivo JSON.
+  - **Y** debe responder con un código de estado `200 OK` confirmando la creación.
+
+- **Escenario 2: Error de Negocio - Intento de registro con un usuario ya existente**
+  - **Dado** que el `username` `"admin1"` ya se encuentra registrado previamente en el archivo `users.json`.
+  - **Cuando** envío una petición `POST /auth/register` intentando duplicar el identificador `"admin1"`.
+  - **Entonces** el sistema **NO** debe modificar el estado del archivo de persistencia.
+  - **Y** debe responder con un código de estado `400 Bad Request` indicando que el usuario ya existe.
+
+
+### 4. Inicio de Sesión `[POST /auth/login]` (REQ_04)
+
+> **Como** Usuario registrado en el sistema,
+> **Quiero** ingresar mis credenciales de autenticación,
+> **Para** obtener un token de acceso temporal que valide mi identidad en peticiones posteriores.
+
+
+#### Criterios de Aceptación (Escenarios de Testing)
+
+- **Escenario 1: Camino Feliz (Happy Path) - Inicio de sesión correcto**
+  - **Dado** que el usuario `"organizer1"` y su contraseña coinciden estrictamente con los registros de `users.json`.
+  - **Cuando** envío una petición `POST /auth/login` incluyendo las credenciales en el cuerpo de la solicitud.
+  - **Entonces** el sistema debe validar los datos de acceso contra la persistencia local.
+  - **Y** debe responder con un código de estado `200 OK` devolviendo la estructura del `access_token`.
+
+- **Escenario 2: Error de Autenticación - Intento de login con credenciales inválidas**
+  - **Dado** que el usuario `"organizer1"` existe pero se proporciona una contraseña incorrecta.
+  - **Cuando** envío una petición `POST /auth/login` con la clave errónea.
+  - **Entonces** el sistema debe bloquear el flujo de autenticación de la ruta.
+  - **Y** debe responder con un código de estado `401 Unauthorized` denegando el token.
+
+
+### 5. Creación de un Evento `[POST /events]` (REQ_05)
+
+> **Como** Usuario Administrador o Dueño del evento,
+> **Quiero** registrar un nuevo evento especificando sus datos de configuración base,
+> **Para** habilitar la venta de entradas al público general dentro de la cartelera.
+
+
+#### Criterios de Aceptación (Escenarios de Testing)
+
+- **Escenario 1: Camino Feliz (Happy Path) - Creación exitosa de un evento**
+  - **Dado** que estoy autenticado en el sistema con un token válido que me asocia al usuario `"organizer1"`.
+  - **Cuando** envío una petición `POST /events` con datos válidos de nombre, fecha futura, capacidad entera superior a cero y precio positivo.
+  - **Entonces** el sistema debe insertar el evento en `events.json`, configurando los valores por defecto de inicialización y enlazando el parámetro `"owner_username": "organizer1"`.
+  - **Y** debe responder con un código de estado `200 OK` adjuntando la entidad del evento creada.
+
+- **Escenario 2: Error de Validación - Datos inconsistentes según esquema estructural**
+  - **Dado** que estoy autenticado con un token de acceso autorizado en los headers.
+  - **Cuando** envío una petición `POST /events` con un valor de capacidad inválido para el modelo, tal como un número decimal o negativo.
+  - **Entonces** la capa de validación de datos interceptores debe detener la ejecución de la lógica del servicio de manera reactiva.
+  - **Y** debe responder con un código de estado `422 Unprocessable Content`.
 
 ## Riesgo Técnico Identificado
 
