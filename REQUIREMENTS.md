@@ -170,6 +170,314 @@ Este documento detalla las especificaciones funcionales, historias de usuario co
   - **Entonces** la capa de validación de datos interceptores debe detener la ejecución de la lógica del servicio de manera reactiva.
   - **Y** debe responder con un código de estado `422 Unprocessable Content`.
 
+### 6. Consulta de Eventos [GET /events] (REQ_06)
+
+> **Como** Usuario del sistema,
+> **Quiero** consultar el listado de eventos disponibles,
+> **Para** conocer la oferta vigente y poder adquirir entradas.
+
+#### Criterios de Aceptación (Escenarios de Testing)
+
+- **Escenario 1: Camino Feliz (Happy Path) - Consulta exitosa de eventos activos**
+
+  - Dado que existen múltiples eventos activos registrados en el archivo events.json.
+
+  - Cuando envío una petición GET /events.
+
+  - Entonces el sistema debe recuperar los eventos disponibles.
+
+  - Y debe responder con un código de estado 200 OK devolviendo una colección de eventos.
+
+- **Escenario 2: Filtro de Negocio - Eventos eliminados lógicamente no visibles**
+
+  - Dado que existen eventos marcados con deleted: true.
+
+  - Cuando realizo una consulta GET /events.
+
+  - Entonces el sistema no debe incluir dichos eventos en la respuesta.
+
+  - Y debe responder con un código de estado 200 OK.
+
+- **Escenario 3: Caso de Borde - No existen eventos activos**
+
+  - Dado que no existen eventos activos registrados.
+
+  - Cuando envío una petición GET /events.
+
+  - Entonces el sistema debe responder correctamente.
+
+  - Y debe devolver una lista vacía junto con un código de estado 200 OK.
+
+### 7. Consulta de Detalle de Evento [GET /events/{event_id}] (REQ_07)
+
+> **Como** Usuario del sistema,
+>
+> **Quiero** consultar la información detallada de un evento específico,
+>
+> **Para** visualizar sus características y disponibilidad.
+
+#### Criterios de Aceptación (Escenarios de Testing)
+
+- **Escenario 1: Camino Feliz (Happy Path) - Consulta exitosa**
+
+  - Dado que existe un evento con ID 123.
+
+  - Cuando envío una petición `GET /events/123.`
+
+  - Entonces el sistema debe recuperar los datos completos del evento.
+
+  - Y debe responder con un código de estado 200 OK devolviendo la entidad correspondiente.
+
+- **Escenario 2: Error de Existencia - Evento inexistente**
+- Cuando envío una petición `GET /events/9999.`
+  
+- Entonces el sistema debe responder con un código de estado 404 Not Found.
+  
+- Y debe devolver el mensaje:
+
+```
+{"detail": "Event not found"}
+```
+
+- **Escenario 3: Error de Ciclo de Vida - Evento eliminado lógicamente**
+- Dado que existe un evento con ID 123 marcado como eliminado.
+  
+- Cuando intento consultar su detalle.
+  
+- Entonces el sistema debe denegar la operación.
+  
+- Y debe responder con un código de estado 404 Not Found.
+
+### 8. Modificación Completa de Evento [PUT /events/{event_id}] (REQ_08)
+
+> **Como** Dueño del evento o Administrador,
+>
+> **Quiero** modificar la configuración completa de un evento,
+>
+> **Para** mantener actualizada su información.
+
+#### Criterios de Aceptación (Escenarios de Testing)
+
+- **Escenario 1: Camino Feliz (Happy Path) - Actualización exitosa**
+
+  - Dado que existe un evento con ID 123.
+
+  - Y estoy autenticado como dueño del evento o administrador.
+
+  - Cuando envío una petición PUT /events/123 con datos válidos.
+
+  - Entonces el sistema debe actualizar la información en events.json.
+
+  - Y debe responder con un código de estado 200 OK devolviendo la entidad actualizada.
+
+- **Escenario 2: Error de Autorización - Usuario sin permisos**
+
+  - Dado que el evento pertenece a otro organizador.
+
+  - Cuando intento modificarlo.
+
+  - Entonces el sistema debe rechazar la solicitud.
+
+  - Y debe responder con un código de estado 403 Forbidden.
+
+- **Escenario 3: Error de Validación - Datos inválidos**
+
+  - Cuando envío un nombre vacío, un precio negativo o una capacidad inválida.
+
+  - Entonces el sistema debe rechazar la solicitud.
+
+  - Y debe responder con un código de estado 422 Unprocessable Content.
+
+- **Escenario 4: Error de Existencia - Evento inexistente**
+
+  - Cuando intento modificar el evento con ID 9999.
+
+  - Entonces el sistema debe responder con un código de estado 404 Not Found.
+
+### 9. Desactivación de Evento [PATCH /events/{event_id}/deactivate] (REQ_09)
+
+> **Como** Dueño del evento o Administrador,
+>
+> **Quiero** desactivar un evento,
+>
+> **Para** suspender su disponibilidad sin eliminarlo definitivamente.
+
+#### Criterios de Aceptación (Escenarios de Testing)
+
+- **Escenario 1: Camino Feliz (Happy Path) - Desactivación exitosa**
+
+  - Dado que existe un evento activo con ID 123.
+
+  - Y estoy autenticado como dueño o administrador.
+
+  - Cuando envío una petición PATCH /events/123/deactivate.
+
+  - Entonces el sistema debe marcar el evento como inactivo.
+
+  - Y debe responder con un código de estado 200 OK.
+
+- **Escenario 2: Error de Autorización - Usuario sin permisos**
+
+  - Dado que el evento pertenece a otro organizador.
+
+  - Cuando intento desactivarlo.
+
+  - Entonces el sistema debe responder con un código de estado 403 Forbidden.
+
+- **Escenario 3: Error de Existencia - Evento inexistente**
+
+  - Cuando envío una petición PATCH /events/9999/deactivate.
+
+  - Entonces el sistema debe responder con un código de estado 404 Not Found.
+
+- **Escenario 4: Caso de Borde - Evento ya desactivado**
+
+  - Dado que el evento ya se encuentra inactivo.
+
+  - Cuando intento desactivarlo nuevamente.
+
+  - Entonces el sistema debe responder informando que el recurso ya se encuentra desactivado.
+
+  - Y debe devolver un código 400 Bad Request o 409 Conflict.
+
+### 10. Consulta de Órdenes [GET /orders] (REQ_10)
+
+> **Como** Usuario autenticado,
+>
+> **Quiero** consultar las órdenes registradas,
+>
+> **Para** visualizar el historial de compras.
+
+#### **Criterios de Aceptación (Escenarios de Testing)**
+
+- **Escenario 1: Camino Feliz (Happy Path) - Consulta exitosa**
+
+  - Dado que existen órdenes registradas.
+
+  - Y estoy autenticado correctamente.
+
+  - Cuando envío una petición GET /orders.
+
+  - Entonces el sistema debe devolver las órdenes permitidas según mi rol.
+
+  - Y debe responder con un código de estado 200 OK.
+
+- **Escenario 2: Error de Autenticación - Token inexistente**
+
+  - Cuando realizo una petición sin token válido.
+
+  - Entonces el sistema debe responder con un código de estado 401 Unauthorized.
+
+- **Escenario 3: Caso de Borde - Sin órdenes registradas**
+
+  - Dado que no existen órdenes para el usuario.
+
+  - Cuando consulto GET /orders.
+
+  - Entonces el sistema debe responder con una lista vacía.
+
+  - Y debe devolver un código de estado 200 OK.
+
+### 11. Compra de Entradas [POST /orders] (REQ_11)
+
+> **Como** Cliente autenticado,
+>
+> **Quiero** comprar entradas para un evento,
+>
+> **Para** asistir al mismo.
+
+#### Criterios de Aceptación (Escenarios de Testing)
+
+- **Escenario 1: Camino Feliz (Happy Path) - Compra exitosa**
+
+  - Dado que existe un evento activo con disponibilidad suficiente.
+
+  - Y estoy autenticado como cliente.
+
+  - Cuando envío una petición POST /orders indicando una cantidad válida de entradas.
+
+  - Entonces el sistema debe registrar la orden en orders.json.
+
+  - Y debe responder con un código de estado 200 OK.
+
+- **Escenario 2: Error de Negocio - Capacidad insuficiente**
+
+  - Dado que el evento no posee entradas disponibles suficientes.
+
+  - Cuando intento realizar la compra.
+
+  - Entonces el sistema debe rechazar la operación.
+
+  - Y debe responder con un código de estado 400 Bad Request.
+
+- **Escenario 3: Error de Ciclo de Vida - Evento inactivo**
+
+  - Dado que el evento se encuentra desactivado o eliminado.
+
+  - Cuando intento comprar entradas.
+
+  - Entonces el sistema debe responder con un código de estado 400 Bad Request.
+
+- **Escenario 4: Error de Validación - Cantidad inválida**
+
+  - Cuando intento comprar 0 o una cantidad negativa de entradas.
+
+  - Entonces el sistema debe rechazar la solicitud.
+
+  - Y debe responder con un código de estado 422 Unprocessable Content.
+
+### 12. Cancelación de Orden [PATCH /orders/{order_id}/cancel] (REQ_12)
+
+> **Como** Cliente propietario de una orden o Administrador,
+>
+> **Quiero** cancelar una orden existente,
+>
+> **Para** anular la compra realizada.
+
+#### Criterios de Aceptación (Escenarios de Testing)
+
+- **Escenario 1: Camino Feliz (Happy Path) - Cancelación exitosa**
+
+  - Dado que existe una orden activa con ID 10.
+
+  - Y estoy autenticado como propietario de la orden.
+
+  - Cuando envío una petición PATCH /orders/10/cancel.
+
+  - Entonces el sistema debe actualizar el estado de la orden a "cancelled".
+
+  - Y debe responder con un código de estado 200 OK.
+
+- **Escenario 2: Error de Autorización - Usuario ajeno a la orden**
+
+  - Dado que la orden pertenece a otro usuario.
+
+  - Cuando intento cancelarla.
+
+  - Entonces el sistema debe responder con un código de estado 403 Forbidden.
+
+- **Escenario 3: Error de Existencia - Orden inexistente**
+
+  - Cuando envío una petición PATCH /orders/9999/cancel.
+
+  - Entonces el sistema debe responder con un código de estado 404 Not Found.
+
+  - Y debe devolver el mensaje:
+
+```
+{ "detail": "Orden no encontrada." }
+```
+
+- **Escenario 4: Caso de Borde - Orden ya cancelada**
+
+  - Dado que la orden ya posee estado "cancelled".
+
+  - Cuando intento cancelarla nuevamente.
+
+  - Entonces el sistema debe rechazar la operación.
+
+  - Y debe responder con un código de estado 400 Bad Request.
+
 ## Riesgo Técnico Identificado
 
 > **Fuera de Alcance Funcional - Sprint 1**

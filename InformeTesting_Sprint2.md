@@ -9,7 +9,7 @@
 | **Error de Validación** - Capacidad igual o menor a cero     | Cuando intento modificar la capacidad de un evento a 0 o a un número negativo (ej -10). Entonces el sistema debe rechazar la solicitud con un código de estado 400 Bad Request o 422 Unprocessable Entity. |
 | **Error de Ciclo de Vida** - Evento Eliminado Lógicamente    | Dado que el evento con ID 123 fue marcado previamente como eliminado (deleted: true o active: false según corresponda). Cuando intento modificar su capacidad. Entonces el sistema debe denegar la acción y responder con un 400 Bad Request indicando que el evento está inactivo o borrado. |
 | **Error de Autorización** - Usuario común intenta modificar un evento ajeno | Dado que existe un evento con ID 3 cuyo owner_username es "organizer1". Y estoy autenticado como el usuario "organizer2" (rol usuario común). Cuando envío una petición PATCH /events/3/capacity con una nueva capacidad de 60. Entonces el sistema NO debe aplicar el cambio. Y debe responder un código de estado 403 Forbidden con el mensaje: { "detail": "No tiene permisos para modificar este evento." } |
-| **Admin elimina cualquier evento (Happy Path)** - El administrador es capaz de eliminar cualquier evento. | Dado que existe un evento con ID 3 y tiene órdenes registradas en orders.json.<br/>Y estoy autenticado con un token de administrador (token-admin1).<br/>Cuando envío una petición DELETE /eventos/3.<br/>Entonces el sistema debe cambiar el atributo deleted a true en el archivo JSON. Y debe responder con un código de estado 200 OK (o 204 No Content). |
+| **Administrador elimina cualquier evento (Happy Path)** - El administrador es capaz de eliminar cualquier evento. | Dado que existe un evento con ID 3 y tiene órdenes registradas en orders.json.<br/>Y estoy autenticado con un token de administrador (token-admin1).<br/>Cuando envío una petición DELETE /eventos/3.<br/>Entonces el sistema debe cambiar el atributo deleted a true en el archivo JSON. Y debe responder con un código de estado 200 OK (o 204 No Content). |
 | Dueño elimina evento SIN órdenes - **(Happy Path)**          | Al no haber órdenes en un evento el dueño es capaz de borrarlo. Dado que existe un evento con ID 5 cuyo owner_username es "organizer1".<br/>Y el evento NO tiene ninguna orden asociada en orders.json (ni activas ni canceladas). Ademas estoy autenticado como "organizer1".<br/>Cuando envío una petición DELETE /events/5 el sistema debe realizar el borrado lógico del evento.<br/>Y debe responder con un código de estado 200 OK. |
 | **Error de Negocio** - Dueño intenta eliminar evento con órdenes históricas | Dado que existe un evento con ID 3 cuyo owner_username es "organizer1".<br/>Y el evento tiene al menos una orden en orders.json con estado "cancelled". Y estoy autenticado como "organizer1". |
 | **Error de Autorización** - Organizador                      | Dado que existe un evento con ID 3 cuyo no dueño intenta eliminar owner_username es "organizer1". Y estoy autenticado como el usuario "organizer2" (rol usuario común). Cuando envío una petición DELETE /events/3. Entonces el sistema debe denegar la acción. Y debe responder un código de estado 403 Forbidden con el mensaje: { "detail": "No tiene permisos para eliminar este evento." } |
@@ -27,7 +27,7 @@ Basándose en el documento de requerimientos refinados que el PM armó en el Spr
 
 |    ID     |                            Nombre                            |                        Precondiciones                        |                       Datos de entrada                       |                            Pasos                             |                      Resultado esperado                      |
 | :-------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| **CP_01** |        **Incremento o reduccion de capacidad valida**        | ● Usuario autenticado o con Token Valido de dueño o administrador<br/>● Evento 123 existente y activo | **event_id (Path):**<br/>123<br/>**Authorization (Header):** token-admin1 </br>**Body:**<br/>{ "capacity": 80 } | \- Configurar una petición HTTP PATCH a /events/123/capacity. <br/>- Incluir el token de autenticación en los headers.<br/>\- Incluir en el cuerpo de la petición la nueva capacidad (80).<br/>\- Enviar la petición | Código de estado 200.<br/>El sistema actualiza la capacidad en el archivo JSON a 80.<br/> La respuesta contiene el objeto del evento modificado con el nuevo valor. |
+| **CP_01** |        **Incremento o reducción de capacidad valida**        | • Usuario autenticado o con Token Valido de dueño o administrador<br/>• Evento 123 existente y activo | **event_id (Path):**<br/>123<br/>**Authorization (Header):** token-admin1 </br>**Body:**<br/>{ "capacity": 80 } | \- Configurar una petición HTTP PATCH a /events/123/capacity. <br/>- Incluir el token de autenticación en los headers.<br/>\- Incluir en el cuerpo de la petición la nueva capacidad (80).<br/>\- Enviar la petición | Código de estado 200.<br/>El sistema actualiza la capacidad en el archivo JSON a 80.<br/> La respuesta contiene el objeto del evento modificado con el nuevo valor. |
 | **CP_02** |  Reducción de capacidad por debajo de las entradas vendidas  | • El evento 123 existe y tiene 60 entradas vendidas registradas.<br/>• El usuario está autenticado con permisos para modificar el evento o tiene un token válido. | **event_id (Path):** 123<br/>**Authorization (Header):** token-admin1 | - Configurar la petición HTTP PATCH hacia el endpoint /events/123/capacity.<br>- Agregar el token de autenticación en el Header.<br>- Incluir en el body el JSON con la nueva capacidad menor a las entradas vendidas (50).<br>- Enviar la petición | Código de estado 400<br/>El sistema NO aplica ningún cambio en el archivo JSON.<br/>La respuesta indica que la nueva capacidad no puede ser menor al número de entradas vendidas. |
 | **CP_03** |      Intento de asignar capacidad igual o menor a cero.      | • El usuario está autenticado con permisos o tiene un token válido.<br/>• El evento 123 existe y tiene cierta capacidad establecida mayor a 0. | **event_id (Path):** 123<br/>**Authorization (Header):** token-admin1 <br/>**Body:** { "capacity": 0 } | \- Configurar la petición HTTP PATCH hacia el endpoint /events/123/capacity.<br/>- Agregar el token de autenticación en el Header.<br/>- Ingresar en el cuerpo de la petición una capacidad menor o igual a cero.<br/>- Enviar la petición | Código de estado 400 Bad Request<br/>El sistema rechaza la solicitud y la capacidad no se modifica en el archivo.<br/>La respuesta indica que la capacidad no puede ser menor o igual a cero. |
 | **CP_04** | Rechazo de modificación de capacidad en un evento eliminado lógicamente | • Existe un evento con ID 123<br/>• El evento tiene los atributos "active": false y "deleted": true<br/>• El usuario está autenticado con permisos o tiene un token válido. | **event_id (Path):**<br/> 123 <br/>**Authorization (Header):** token-admin1 <br/>**Body:** { "capacity": 150 } | \- Configurar la petición HTTP PATCH hacia el endpoint /events/123/capacity.<br/>- Agregar el token de autenticación en el Header.<br/>- Incluir en el Body el JSON con la nueva capacidad (150).<br/>- Enviar la petición. | El sistema deniega la acción devolviendo un código de estado 400 Bad Request.<br/>La respuesta indica que no se ha encontrado un evento activo. |
@@ -69,34 +69,50 @@ Basándose en el documento de requerimientos refinados que el PM armó en el Spr
 
 En base a la ejecución de pruebas manuales, cuya evidencia se encuentra dentro de la carpeta "Evidencias_CP" se dio con los siguientes defectos:
 
-**Defecto – CP_03:** Validación incorrecta de capacidad igual a cero
+#### **Defecto – CP_03 (BUG_01):** Validación incorrecta de capacidad igual a cero
 
-Durante la ejecución del caso de prueba CP_03 se detectó que el sistema permite actualizar la capacidad de un evento a un valor igual a cero, lo cual contradice el requisito funcional establecido. Según la especificación, la capacidad del evento debe ser estrictamente mayor a cero, por lo que no debería permitirse la actualización con valores menores o iguales a cero.
+- **Precondiciones:**
 
-Si bien el sistema rechaza correctamente valores negativos, la validación actual no contempla el caso de capacidad igual a cero.
+  - Tener acceso al entorno de pruebas de la API (Postman).
+  - Contar con las credenciales de un usuario organizador.
 
-Además, ante el intento de actualización con un valor inválido, el sistema devuelve el siguiente mensaje de error:
+  - Tener un evento previamente creado activo en el sistema.
 
-{ "detail": "Capacity cannot be lower than sold tickets" }
+- **Pasos para reproducir:** 
+  - Iniciar sesión con el usuario organizador en Postman para obtener el token de autenticación.
+  - Configurar una petición HTTP de tipo PATCH apuntando al endpoint de actualización del evento.
+  - Modificar el cuerpo de la petición (JSON) asignando el valor `0` al campo de capacidad (`capacity`).
+  - Enviar la petición.
 
-El mensaje retornado no corresponde con la validación requerida. Según la especificación, el sistema debería devolver un mensaje indicando explícitamente que la capacidad no puede ser menor o igual a cero.
+- **Resultado Obtenido:** El sistema permite actualizar la capacidad de un evento a un valor igual a cero. Además, ante el intento de actualización, devuelve el mensaje de error: `{ "detail": "Capacity cannot be lower than sold tickets" }`, el cual no corresponde con la validación requerida.
 
-Se adjunta evidencia de ejecución de la prueba realizada mediante Postman.
+- **Resultado Esperado:** El sistema debe rechazar la actualización si la capacidad es menor o igual a cero, bloqueando el valor cero y devolviendo un mensaje de error que indique explícitamente que la capacidad debe ser estrictamente mayor a cero.
+- **Evidencia:** La evidencia se encuentra disponible en la carpeta "Evidencias_CP", en esta carpeta se encontraran todos los videos de la ejecución de cada caso de prueba mediante **Postman** y sus respectivos resultados.
+- **Severidad:** **<u>Mayor</u>** ya que permite registrar datos inconsistentes que contradicen las reglas de negocio y los requisitos funcionales establecidos.
+- **Prioridad:** **<u>Media</u>** Debe corregirse para asegurar la integridad de la lógica del sistema antes de pasar a producción, aunque no bloquee por completo el flujo de la aplicación.
 
-**Defecto – CP_08:** Eliminación incorrecta de eventos con órdenes registradas
+#### **Defecto – CP_08 (BUG_02):** Eliminación incorrecta de eventos con órdenes registradas
 
-Durante la ejecución del caso de prueba CP_08 se observó que el sistema permite eliminar un evento activo que posee órdenes registradas canceladas.
+- **Precondiciones:**
 
-De acuerdo con el requisito funcional, al intentar eliminar un evento con órdenes registradas el sistema debe:
+  - Tener acceso al entorno de pruebas de la API (Postman).
 
-- Devolver un status code 400.
-- Informar mediante un mensaje de error que no es posible eliminar eventos con órdenes registradas.
-- Mantener sin modificaciones el archivo JSON de persistencia.
+  - Contar con las credenciales de un usuario organizador.
 
-Sin embargo, el sistema elimina el evento y devuelve la siguiente respuesta:
+  - Tener un evento activo creado que posea al menos una orden registrada con estado "cancelada".
 
-{"id": 3, "name": "Jazz Night", "date": "2025-12-20", "capacity": 50, "price": 4500, "active": false, "deleted": true, "owner_username": "organizer1"}
+- **Pasos para reproducir: **
 
-Esto evidencia que el evento fue marcado como eliminado, incumpliendo el comportamiento esperado definido en la especificación.
+  - Iniciar sesión con el usuario organizador en Postman.
 
-Se adjunta evidencia de ejecución de la prueba realizada mediante Postman en la carpeta “Evidencias_CP”
+  - Configurar una petición HTTP de tipo DELETE apuntando al endpoint del evento específico que tiene las órdenes canceladas asociadas.
+
+  - Enviar la petición.
+
+  - Verificar el estado del archivo JSON de persistencia o enviar una petición GET para comprobar si el campo `deleted` cambió a `true`.
+
+- **Resultado Obtenido:** El sistema permite eliminar un evento activo que posee órdenes registradas canceladas. Devuelve un estado exitoso con el cuerpo: `{"id": 3, "name": "Jazz Night", "date": "2025-12-20", "capacity": 50, "price": 4500, "active": false, "deleted": true, "owner_username": "organizer1"}`, marcando el evento como eliminado en el archivo JSON de persistencia.
+- **Resultado Esperado:** El sistema debe rechazar la eliminación, devolver un status code 400, informar mediante un mensaje de error que no es posible eliminar eventos con órdenes registradas y mantener sin modificaciones el archivo JSON de persistencia.
+- **Evidencia:** La evidencia se encuentra disponible en la carpeta "Evidencias_CP", en esta carpeta se encontraran todos los videos de la ejecución de cada caso de prueba mediante **Postman** y sus respectivos resultados.
+- **Severidad:** **<u>Crítica</u>** ya que viola una regla de negocio esencial, permitiendo el borrado de datos vinculados a transacciones y rompiendo la integridad de la persistencia.
+- **Prioridad:** **<u>Alta</u>** ya que impacta directamente en la consistencia de los datos del sistema y debe resolverse de forma prioritaria para evitar pérdida de historial de órdenes.
