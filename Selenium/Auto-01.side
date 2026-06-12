@@ -1,0 +1,451 @@
+{
+  "id": "1856d0c0-ace0-47a3-943e-a7dd3e02cf1d",
+  "version": "2.0",
+  "name": "Testing TP",
+  "url": "http://127.0.0.1:8000",
+  "tests": [{
+    "id": "7bab2d8a-b636-4ae2-89d8-6ad5b0e56ab1",
+    "name": "Admin Login",
+    "commands": [{
+      "id": "6945d927-3d48-4f20-9dd9-86e863d0171a",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c2f98d7b-2dba-450e-bc52-e424eded7511",
+      "comment": "",
+      "command": "click",
+      "target": "id=loginUsername",
+      "targets": [
+        ["id=loginUsername", "id"],
+        ["css=#loginUsername", "css:finder"],
+        ["xpath=//input[@id='loginUsername']", "xpath:attributes"],
+        ["xpath=//section[@id='accessSection']/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9b87fa9a-e70f-470b-be5a-67d61803de9d",
+      "comment": "",
+      "command": "type",
+      "target": "id=loginUsername",
+      "targets": [
+        ["id=loginUsername", "id"],
+        ["css=#loginUsername", "css:finder"],
+        ["xpath=//input[@id='loginUsername']", "xpath:attributes"],
+        ["xpath=//section[@id='accessSection']/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin1"
+    }, {
+      "id": "a05e6909-69b8-4794-970d-3cfe9270a1ae",
+      "comment": "",
+      "command": "type",
+      "target": "id=loginPassword",
+      "targets": [
+        ["id=loginPassword", "id"],
+        ["css=#loginPassword", "css:finder"],
+        ["xpath=//input[@id='loginPassword']", "xpath:attributes"],
+        ["xpath=//section[@id='accessSection']/div/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "admin123"
+    }, {
+      "id": "e661063a-ee62-428f-b228-330a36f2e914",
+      "comment": "",
+      "command": "click",
+      "target": "id=loginButton",
+      "targets": [
+        ["id=loginButton", "id"],
+        ["css=#loginButton", "css:finder"],
+        ["xpath=//button[@id='loginButton']", "xpath:attributes"],
+        ["xpath=//section[@id='accessSection']/div/div/button", "xpath:idRelative"],
+        ["xpath=//section[3]/div/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Ingresar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5c51242e-114c-49de-9ed5-6dc0334dd637",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.pill",
+      "targets": [
+        ["css=.pill", "css:finder"],
+        ["xpath=//div[@id='sessionInfo']/span", "xpath:idRelative"],
+        ["xpath=//div[2]/span", "xpath:position"]
+      ],
+      "value": "ADMIN"
+    }, {
+      "id": "91128c58-36b8-469e-9e83-6cb005ca9ce5",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=#sessionInfo > strong",
+      "targets": [
+        ["css=#sessionInfo > strong", "css:finder"],
+        ["xpath=//div[@id='sessionInfo']/strong", "xpath:idRelative"],
+        ["xpath=//strong", "xpath:position"],
+        ["xpath=//strong[contains(.,'admin1')]", "xpath:innerText"]
+      ],
+      "value": "admin1"
+    }]
+  }, {
+    "id": "b767db6f-0c6b-4e2b-9964-e2cd5e1e481d",
+    "name": "Logout",
+    "commands": [{
+      "id": "4ad1cd88-d691-4bff-b1d1-d4b66213b39b",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9527836c-b1f8-4251-8e5e-d7b86ea7bdd6",
+      "comment": "",
+      "command": "click",
+      "target": "id=logoutButton",
+      "targets": [
+        ["id=logoutButton", "id"],
+        ["css=#logoutButton", "css:finder"],
+        ["xpath=//button[@id='logoutButton']", "xpath:attributes"],
+        ["xpath=//div[@id='sessionBox']/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Cerrar sesión')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "9fa61fe0-eacb-45a7-b557-198f66285efd",
+    "name": "Change capacity",
+    "commands": [{
+      "id": "b753e477-13c1-4090-aed0-6091b446d580",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d7959887-494f-42ac-b4ca-8d2a9bbd74b2",
+      "comment": "",
+      "command": "click",
+      "target": "css=.event-card:nth-child(1) .secondary",
+      "targets": [
+        ["css=.event-card:nth-child(1) .secondary", "css:finder"],
+        ["xpath=//button[@onclick='openEditModal(1)']", "xpath:attributes"],
+        ["xpath=//div[@id='eventsContainer']/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Editar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b0c84578-b1a7-4b96-9bd2-fb82a009cf52",
+      "comment": "",
+      "command": "click",
+      "target": "css=.modal",
+      "targets": [
+        ["css=.modal", "css:finder"],
+        ["xpath=//div[@id='editEventModal']/div", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "755fbb47-b9ab-4bc1-bc58-16056168360c",
+      "comment": "",
+      "command": "type",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "80"
+    }, {
+      "id": "4ff87103-d8cf-4f6f-8c34-659cb34138fd",
+      "comment": "",
+      "command": "click",
+      "target": "id=saveEditButton",
+      "targets": [
+        ["id=saveEditButton", "id"],
+        ["css=#saveEditButton", "css:finder"],
+        ["xpath=//button[@id='saveEditButton']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/div[2]/button[2]", "xpath:idRelative"],
+        ["xpath=//div[2]/button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Guardar cambios')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "cd1d2a41-b407-4a0e-9feb-c8f235b22e8c",
+    "name": "Change capacity below sold",
+    "commands": [{
+      "id": "57a84012-0ba5-4361-b970-624a8a55fc65",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cc6e5afe-c067-479f-9a33-5ecd5dab6102",
+      "comment": "",
+      "command": "click",
+      "target": "css=.event-card:nth-child(1) .secondary",
+      "targets": [
+        ["css=.event-card:nth-child(1) .secondary", "css:finder"],
+        ["xpath=//button[@onclick='openEditModal(1)']", "xpath:attributes"],
+        ["xpath=//div[@id='eventsContainer']/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Editar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d0330e50-9504-42d1-914e-d2a3de2bb002",
+      "comment": "",
+      "command": "mouseDownAt",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "6.673583984375,13.562469482421875"
+    }, {
+      "id": "940c732f-8899-432f-b944-bbfd0a2c5596",
+      "comment": "",
+      "command": "mouseMoveAt",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "6.673583984375,13.562469482421875"
+    }, {
+      "id": "787897b3-6f05-42db-9c37-86b9dd59eda0",
+      "comment": "",
+      "command": "mouseUpAt",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "6.673583984375,13.562469482421875"
+    }, {
+      "id": "b866abc9-948e-4227-a192-74e44a607fce",
+      "comment": "",
+      "command": "click",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7cf7161-f43f-42e9-a203-af49f7d7dc6c",
+      "comment": "",
+      "command": "type",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "1"
+    }, {
+      "id": "ce049004-8d3d-4ea9-b6eb-18da8c091d68",
+      "comment": "",
+      "command": "click",
+      "target": "id=saveEditButton",
+      "targets": [
+        ["id=saveEditButton", "id"],
+        ["css=#saveEditButton", "css:finder"],
+        ["xpath=//button[@id='saveEditButton']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/div[2]/button[2]", "xpath:idRelative"],
+        ["xpath=//div[2]/button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Guardar cambios')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "102acc4d-64c0-4f84-8d76-f4ba71ae720a",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=status",
+      "targets": [
+        ["id=status", "id"],
+        ["css=#status", "css:finder"],
+        ["xpath=//div[@id='status']", "xpath:attributes"],
+        ["xpath=//div[4]/div", "xpath:position"]
+      ],
+      "value": "Capacity cannot be lower than sold tickets"
+    }]
+  }, {
+    "id": "15c33e49-5ff3-4cbf-bb38-1769a3a8f00a",
+    "name": "Change capacity to zero or less",
+    "commands": [{
+      "id": "e1401425-7898-4fd6-96dc-e38730a33354",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "dd643aed-468d-4cb9-86c0-118f29e0afe7",
+      "comment": "",
+      "command": "click",
+      "target": "css=.event-card:nth-child(1) .secondary",
+      "targets": [
+        ["css=.event-card:nth-child(1) .secondary", "css:finder"],
+        ["xpath=//button[@onclick='openEditModal(1)']", "xpath:attributes"],
+        ["xpath=//div[@id='eventsContainer']/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Editar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0c6d18fa-2f09-43f4-a530-905bca4dabcf",
+      "comment": "",
+      "command": "mouseDownAt",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "6.673583984375,13.562469482421875"
+    }, {
+      "id": "3d9994a7-1c29-490f-b6a2-0ff26827c5b9",
+      "comment": "",
+      "command": "mouseMoveAt",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "6.673583984375,13.562469482421875"
+    }, {
+      "id": "eb0c2e0f-9e4b-47a9-a82d-0164aa47fe2a",
+      "comment": "",
+      "command": "mouseUpAt",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "6.673583984375,13.562469482421875"
+    }, {
+      "id": "87168af5-26a5-4f5b-99b6-d94b31fb65f8",
+      "comment": "",
+      "command": "click",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "94634d59-3c2b-4726-82ac-9261c188885f",
+      "comment": "",
+      "command": "type",
+      "target": "id=editCapacity",
+      "targets": [
+        ["id=editCapacity", "id"],
+        ["css=#editCapacity", "css:finder"],
+        ["xpath=//input[@id='editCapacity']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/input", "xpath:idRelative"],
+        ["xpath=//body/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "0"
+    }, {
+      "id": "764cfe33-0577-41c6-b8ed-c4ee41dbe27b",
+      "comment": "",
+      "command": "click",
+      "target": "id=saveEditButton",
+      "targets": [
+        ["id=saveEditButton", "id"],
+        ["css=#saveEditButton", "css:finder"],
+        ["xpath=//button[@id='saveEditButton']", "xpath:attributes"],
+        ["xpath=//div[@id='editEventModal']/div/div[2]/button[2]", "xpath:idRelative"],
+        ["xpath=//div[2]/button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Guardar cambios')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "8058f650-209d-4e7b-9575-a336972edc39",
+    "name": "Cancel Order",
+    "commands": [{
+      "id": "9d3a499b-d492-4025-9627-1a5d8d5526c4",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1e0a9a39-15ab-4de5-9cc5-9f6414ccab9b",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "945x1012",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f04517de-d2af-421e-9cc1-460ce0d1b686",
+      "comment": "",
+      "command": "click",
+      "target": "css=.danger:nth-child(3)",
+      "targets": [
+        ["css=.danger:nth-child(3)", "css:finder"],
+        ["xpath=//button[@onclick='cancelOrder(1)']", "xpath:attributes"],
+        ["xpath=//div[@id='ordersContainer']/div/button", "xpath:idRelative"],
+        ["xpath=//section[6]/div/div[2]/div/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Cancelar orden')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "171a9afb-e1a1-4d97-8583-67ee3f096a77",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.order-card:nth-child(1) > .muted",
+      "targets": [
+        ["css=.order-card:nth-child(1) > .muted", "css:finder"],
+        ["xpath=//div[@id='ordersContainer']/div/div[2]", "xpath:idRelative"],
+        ["xpath=//section[6]/div/div[2]/div/div[2]", "xpath:position"]
+      ],
+      "value": "Orden ya cancelada."
+    }]
+  }],
+  "suites": [{
+    "id": "6a6e1c37-260a-4f0f-b195-69bae861ff36",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["7bab2d8a-b636-4ae2-89d8-6ad5b0e56ab1"]
+  }],
+  "urls": ["http://127.0.0.1:8000/"],
+  "plugins": []
+}
