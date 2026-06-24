@@ -97,6 +97,9 @@ class EventService:
         if not is_admin and not is_owner:
             raise PermissionError("You do not have permission to delete this event")
 
+        if event.get("active", False) and OrderService.event_has_any_orders(event_id):
+            raise ValueError("Cannot delete an active event that has registered orders")
+
         if not is_admin and OrderService.event_has_any_orders(event_id):
             raise ValueError("Cannot delete an event that has registered orders")
 
@@ -119,8 +122,11 @@ class EventService:
         if current_user["role"] != "admin" and event["owner_username"] != current_user["username"]:
             raise PermissionError("You do not have permission to update this event")
 
+        if new_capacity <= 0:
+            raise ValueError("Capacity must be greater than 0")
+
         sold_tickets = OrderService.sold_tickets_for_event(event_id)
-        
+
         if new_capacity < sold_tickets:
             raise ValueError("Capacity cannot be lower than sold tickets")
 

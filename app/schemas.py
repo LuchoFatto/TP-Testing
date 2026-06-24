@@ -27,7 +27,7 @@ class EventUpdateRequest(BaseModel):
 
 
 class CapacityUpdateRequest(BaseModel):
-    capacity: int
+    capacity: int = Field(gt=0)
 
 
 class OrderCreateRequest(BaseModel):

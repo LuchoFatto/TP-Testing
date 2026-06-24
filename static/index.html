@@ -807,6 +807,10 @@
         setStatus('Evento eliminado correctamente.', 'success');
         await loadEvents();
       } catch (error) {
+        if (error.message && error.message.includes('active event that has registered orders')) {
+          alert('No se puede eliminar un evento activo con órdenes registradas.');
+          return;
+        }
         setStatus(error.message, 'error');
       }
     }
@@ -816,8 +820,12 @@
         return;
       }
       clearStatus();
+      const capacity = Number(document.getElementById('editCapacity').value);
+      if (!Number.isFinite(capacity) || capacity <= 0) {
+        alert('La capacidad debe ser mayor a 0.');
+        return;
+      }
       try {
-        const capacity = Number(document.getElementById('editCapacity').value);
         await request(`/events/${editingEventId}/capacity`, {
           method: 'PATCH',
           body: JSON.stringify({ capacity })

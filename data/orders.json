@@ -12,5 +12,12 @@
     "customer_username": "customer1",
     "quantity": 1,
     "status": "cancelled"
+  },
+  {
+    "id": 3,
+    "event_id": 4,
+    "customer_username": "admin1",
+    "quantity": 1,
+    "status": "active"
   }
 ]
