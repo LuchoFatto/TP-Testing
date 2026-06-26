@@ -11,7 +11,7 @@ Los defectos registrados previamente en [InformeTesting_Sprint2.md](InformeTesti
 Se verificó que los cambios aplicados no alteraran el comportamiento esperado de las funcionalidades ya existentes ni de las nuevas implementaciones incorporadas durante el Sprint. La validación se apoyó en las pruebas disponibles del proyecto y en la revisión del funcionamiento de los módulos involucrados.
 
 **Conclusión de la Fase de Regresión:**
-Se concluye que los ajustes realizados no introdujeron impactos negativos en el resto del sistema. La evidencia gráfica disponible del proyecto se encuentra en la carpeta [Evidencias_CP](Evidencias_CP/), donde están documentadas las ejecuciones `CP_01.mkv` a `CP_15.mkv`.
+Se concluye que los ajustes realizados no introdujeron impactos negativos en el resto del sistema. La evidencia gráfica disponible del proyecto se encuentra en la carpeta [Evidencias_CP](Evidencias_CP/), donde están documentadas las ejecuciones `CP_01.mkv` a `CP_41.mkv`.
 
 ---
 
