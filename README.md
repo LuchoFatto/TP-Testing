@@ -76,4 +76,5 @@ A continuación se detallan los entregables correspondientes a los distintos Spr
 
 - [Sprint 1 - Requerimientos Refinados](REQUIREMENTS.md)
 - [Sprint 1 - Plan de Pruebas Inicial](QA.md)
-- [Sprint 2 - Escenarios, Casos de Prueba, Matriz](InformeTesting_Sprint2.md)
+- [Sprint 2 - Escenarios, Casos de Prueba, Matriz](INFORME_TESTING_SPRINT2.md)
+- [Sprint 4 - Informe de Cierre y Retrospectiva](INFORME_FINAL_SPRINT4.md)
